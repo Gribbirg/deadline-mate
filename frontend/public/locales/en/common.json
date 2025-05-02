@@ -15,5 +15,116 @@
   "settings": "Settings",
   "darkMode": "Dark Mode",
   "lightMode": "Light Mode",
-  "language": "Language"
+  "language": "Language",
+
+  "common": {
+    "loading": "Loading...",
+    "accessDenied": "Access Denied"
+  },
+
+  "validation": {
+    "required": "This field is required",
+    "email": "Invalid email format",
+    "passwordLength": "Password must be at least 8 characters long",
+    "passwordStrength": "Password must contain uppercase and lowercase letters, and numbers",
+    "passwordMatch": "Passwords do not match"
+  },
+
+  "loginPage": {
+    "title": "Log in to your account",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign in",
+    "loading": "Signing in...",
+    "success": "Successfully signed in",
+    "noAccount": "Don't have an account?",
+    "register": "Register now"
+  },
+
+  "registerPage": {
+    "title": "Create your account",
+    "username": "Username",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "role": "Role",
+    "roleStudent": "Student",
+    "roleTeacher": "Teacher",
+    "studentProfile": "Student Profile",
+    "teacherProfile": "Teacher Profile",
+    "major": "Major",
+    "yearOfStudy": "Year of study",
+    "selectYear": "Select year",
+    "position": "Position",
+    "department": "Department",
+    "academicDegree": "Academic degree",
+    "submit": "Create account",
+    "loading": "Creating account...",
+    "success": "Registration successful",
+    "successDescription": "You can now log in to your account",
+    "haveAccount": "Already have an account?",
+    "login": "Sign in"
+  },
+
+  "user": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Sign out"
+  },
+
+  "nav": {
+    "dashboard": "Dashboard",
+    "assignments": "Assignments",
+    "deadlines": "Deadlines",
+    "groups": "Groups",
+    "manageAssignments": "Manage Assignments"
+  },
+
+  "dashboard": {
+    "welcome": "Welcome,",
+    "role": "Role",
+    "student": "Student",
+    "teacher": "Teacher",
+    "loading": "Loading dashboard...",
+    "studentSection": "Student Dashboard",
+    "teacherSection": "Teacher Dashboard",
+    "upcomingDeadlines": "Upcoming Deadlines",
+    "noDeadlines": "You have no upcoming deadlines",
+    "recentAssignments": "Recent Assignments",
+    "noAssignments": "You have no assignments",
+    "viewAllAssignments": "View all assignments",
+    "managedGroups": "Your groups",
+    "noGroups": "You have no groups",
+    "createdAssignments": "Created Assignments",
+    "noCreatedAssignments": "You haven't created any assignments yet",
+    "createAssignment": "Create Assignment",
+    "createGroup": "Create Group"
+  },
+
+  "profile": {
+    "student": "Student",
+    "teacher": "Teacher",
+    "personalInfo": "Personal Information",
+    "security": "Security",
+    "studentInfo": "Student Information",
+    "teacherInfo": "Teacher Information",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "saveChanges": "Save changes",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "changePassword": "Change password",
+    "major": "Major",
+    "yearOfStudy": "Year of study",
+    "bio": "Bio",
+    "position": "Position",
+    "department": "Department",
+    "academicDegree": "Academic degree",
+    "validationError": "Validation error",
+    "updateSuccess": "Profile updated successfully",
+    "updateError": "Error updating profile"
+  }
 } 

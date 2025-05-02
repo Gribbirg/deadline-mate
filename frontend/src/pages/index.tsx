@@ -4,9 +4,21 @@ import { Box, Heading, Text, Button, Stack, Flex } from '@chakra-ui/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Layout from '../components/Layout';
+import NextLink from 'next/link';
+import { useAuth } from '../contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 const Home = () => {
   const { t } = useTranslation('common');
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+  
+  // Если пользователь уже аутентифицирован, перенаправляем на дашборд
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, router]);
   
   return (
     <Layout>
@@ -25,12 +37,16 @@ const Home = () => {
           {t('description')}
         </Text>
         <Stack direction="row" spacing={4} mt={8}>
-          <Button colorScheme="brand" size="lg">
-            {t('login')}
-          </Button>
-          <Button colorScheme="brand" size="lg" variant="outline">
-            {t('register')}
-          </Button>
+          <NextLink href="/login" legacyBehavior>
+            <Button as="a" colorScheme="brand" size="lg">
+              {t('login')}
+            </Button>
+          </NextLink>
+          <NextLink href="/register" legacyBehavior>
+            <Button as="a" colorScheme="brand" size="lg" variant="outline">
+              {t('register')}
+            </Button>
+          </NextLink>
         </Stack>
       </Flex>
     </Layout>

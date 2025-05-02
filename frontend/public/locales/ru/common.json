@@ -15,5 +15,116 @@
   "settings": "Настройки",
   "darkMode": "Темная тема",
   "lightMode": "Светлая тема",
-  "language": "Язык"
+  "language": "Язык",
+
+  "common": {
+    "loading": "Загрузка...",
+    "accessDenied": "Доступ запрещен"
+  },
+
+  "validation": {
+    "required": "Обязательное поле",
+    "email": "Некорректный формат email",
+    "passwordLength": "Пароль должен содержать не менее 8 символов",
+    "passwordStrength": "Пароль должен содержать заглавные и строчные буквы, а также цифры",
+    "passwordMatch": "Пароли не совпадают"
+  },
+
+  "loginPage": {
+    "title": "Вход в систему",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "submit": "Войти",
+    "loading": "Вход...",
+    "success": "Успешный вход",
+    "noAccount": "Еще нет аккаунта?",
+    "register": "Зарегистрироваться"
+  },
+
+  "registerPage": {
+    "title": "Регистрация",
+    "username": "Имя пользователя",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Email",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "role": "Роль",
+    "roleStudent": "Студент",
+    "roleTeacher": "Преподаватель",
+    "studentProfile": "Профиль студента",
+    "teacherProfile": "Профиль преподавателя",
+    "major": "Специальность",
+    "yearOfStudy": "Курс",
+    "selectYear": "Выберите курс",
+    "position": "Должность",
+    "department": "Кафедра",
+    "academicDegree": "Ученая степень",
+    "submit": "Зарегистрироваться",
+    "loading": "Регистрация...",
+    "success": "Успешная регистрация",
+    "successDescription": "Теперь вы можете войти в систему",
+    "haveAccount": "Уже есть аккаунт?",
+    "login": "Войти"
+  },
+
+  "user": {
+    "profile": "Профиль",
+    "settings": "Настройки",
+    "logout": "Выйти"
+  },
+
+  "nav": {
+    "dashboard": "Панель управления",
+    "assignments": "Задания",
+    "deadlines": "Дедлайны",
+    "groups": "Группы",
+    "manageAssignments": "Управление заданиями"
+  },
+
+  "dashboard": {
+    "welcome": "Добро пожаловать,",
+    "role": "Роль",
+    "student": "Студент",
+    "teacher": "Преподаватель",
+    "loading": "Загрузка...",
+    "studentSection": "Панель студента",
+    "teacherSection": "Панель преподавателя",
+    "upcomingDeadlines": "Ближайшие дедлайны",
+    "noDeadlines": "У вас нет ближайших дедлайнов",
+    "recentAssignments": "Последние задания",
+    "noAssignments": "У вас нет заданий",
+    "viewAllAssignments": "Посмотреть все задания",
+    "managedGroups": "Ваши группы",
+    "noGroups": "У вас нет групп",
+    "createdAssignments": "Созданные задания",
+    "noCreatedAssignments": "Вы еще не создали заданий",
+    "createAssignment": "Создать задание",
+    "createGroup": "Создать группу"
+  },
+
+  "profile": {
+    "student": "Студент",
+    "teacher": "Преподаватель",
+    "personalInfo": "Личная информация",
+    "security": "Безопасность",
+    "studentInfo": "Информация студента",
+    "teacherInfo": "Информация преподавателя",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Email",
+    "saveChanges": "Сохранить изменения",
+    "currentPassword": "Текущий пароль",
+    "newPassword": "Новый пароль",
+    "changePassword": "Изменить пароль",
+    "major": "Специальность",
+    "yearOfStudy": "Курс",
+    "bio": "О себе",
+    "position": "Должность",
+    "department": "Кафедра",
+    "academicDegree": "Ученая степень",
+    "validationError": "Ошибка валидации",
+    "updateSuccess": "Профиль успешно обновлен",
+    "updateError": "Ошибка при обновлении профиля"
+  }
 } 
