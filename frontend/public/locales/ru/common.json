@@ -1,0 +1,19 @@
+{
+  "appName": "Deadline Mate",
+  "welcome": "Добро пожаловать в Deadline Mate",
+  "description": "Система управления задачами и дедлайнами для студентов и преподавателей",
+  "login": "Вход",
+  "register": "Регистрация",
+  "logout": "Выход",
+  "studentRole": "Студент",
+  "teacherRole": "Преподаватель",
+  "dashboard": "Панель управления",
+  "assignments": "Задания",
+  "deadlines": "Дедлайны",
+  "groups": "Группы",
+  "profile": "Профиль",
+  "settings": "Настройки",
+  "darkMode": "Темная тема",
+  "lightMode": "Светлая тема",
+  "language": "Язык"
+} 

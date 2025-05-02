@@ -1,0 +1,19 @@
+{
+  "appName": "Deadline Mate",
+  "welcome": "Welcome to Deadline Mate",
+  "description": "Task and deadline management system for students and teachers",
+  "login": "Login",
+  "register": "Register",
+  "logout": "Logout",
+  "studentRole": "Student",
+  "teacherRole": "Teacher",
+  "dashboard": "Dashboard",
+  "assignments": "Assignments",
+  "deadlines": "Deadlines",
+  "groups": "Groups",
+  "profile": "Profile",
+  "settings": "Settings",
+  "darkMode": "Dark Mode",
+  "lightMode": "Light Mode",
+  "language": "Language"
+} 

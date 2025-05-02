@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=db
+      - DB_PORT=5432
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    command: npm run dev
+    restart: unless-stopped
+
+volumes:
+  pg_data: 
