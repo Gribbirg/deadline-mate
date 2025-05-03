@@ -1,0 +1,16 @@
+[Unit]
+Description=Deadline Mate Frontend Service
+After=network.target
+
+[Service]
+Type=simple
+User=grib
+WorkingDirectory=/var/www/deadline-mate/frontend
+ExecStart=/usr/bin/env NODE_OPTIONS="--max-old-space-size=2048" /usr/bin/npm start
+Restart=on-failure
+RestartSec=10
+Environment=NODE_ENV=production
+Environment=PORT=3000
+
+[Install]
+WantedBy=multi-user.target 
