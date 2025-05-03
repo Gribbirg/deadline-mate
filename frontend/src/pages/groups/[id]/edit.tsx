@@ -233,16 +233,16 @@ const GroupEditPage = () => {
                 leftIcon={<ChevronLeftIcon />}
                 onClick={() => router.push(`/groups/${id}`)}
               >
-                {t('cancel')}
+                {t('common.cancel')}
               </Button>
               <Button
                 type="submit"
                 colorScheme="brand"
                 leftIcon={<CheckIcon />}
                 isLoading={submitting}
-                loadingText={t('saving')}
+                loadingText={t('group.saving')}
               >
-                {t('save')}
+                {t('common.save')}
               </Button>
             </Flex>
           </Stack>

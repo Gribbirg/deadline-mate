@@ -13,10 +13,12 @@ import {
   Stack,
   useToast,
   FormErrorMessage,
+  Flex,
 } from '@chakra-ui/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Layout from '../components/Layout';
+import Logo from '../components/Logo';
 import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
@@ -76,6 +78,10 @@ const Login = () => {
   return (
     <Layout>
       <Box maxW="md" mx="auto" mt={8} p={6} borderWidth={1} borderRadius="lg" boxShadow="md">
+        <Flex justifyContent="center" mb={6}>
+          <Logo size={100} showText={false} />
+        </Flex>
+        
         <Heading as="h1" size="xl" textAlign="center" mb={6}>
           {t('loginPage.title')}
         </Heading>

@@ -63,12 +63,112 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Базовый URL API
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
+// Переменные для отслеживания процесса обновления токена
+let isRefreshing = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any, token = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  
+  failedQueue = [];
+};
+
 // Провайдер контекста
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  
+  // Настройка интерсептора для автоматического обновления токена
+  useEffect(() => {
+    // Добавляем интерсептор для обработки 401 ошибок
+    const responseInterceptor = axios.interceptors.response.use(
+      response => response,
+      async error => {
+        const originalRequest = error.config;
+        
+        // Если ошибка не 401 или запрос уже повторялся, просто отклоняем промис
+        if (error.response?.status !== 401 || originalRequest._retry) {
+          return Promise.reject(error);
+        }
+        
+        // Если запрос к эндпоинту обновления токенов, отклоняем без повторных попыток
+        if (originalRequest.url === `${API_URL}/auth/token/refresh/`) {
+          return Promise.reject(error);
+        }
+        
+        originalRequest._retry = true;
+        
+        if (isRefreshing) {
+          // Если процесс обновления уже идет, добавляем в очередь
+          try {
+            const token = await new Promise((resolve, reject) => {
+              failedQueue.push({ resolve, reject });
+            });
+            originalRequest.headers['Authorization'] = `Bearer ${token}`;
+            return axios(originalRequest);
+          } catch (err) {
+            return Promise.reject(err);
+          }
+        }
+        
+        isRefreshing = true;
+        
+        // Пытаемся обновить токен
+        try {
+          const refreshToken = localStorage.getItem('refresh_token');
+          if (!refreshToken) {
+            throw new Error('No refresh token available');
+          }
+          
+          const response = await axios.post(`${API_URL}/auth/token/refresh/`, {
+            refresh: refreshToken
+          });
+          
+          const { access } = response.data;
+          
+          // Сохраняем новый токен
+          localStorage.setItem('access_token', access);
+          
+          // Обновляем заголовок авторизации
+          axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+          originalRequest.headers['Authorization'] = `Bearer ${access}`;
+          
+          // Обрабатываем очередь запросов
+          processQueue(null, access);
+          
+          // Повторяем оригинальный запрос с новым токеном
+          return axios(originalRequest);
+        } catch (err) {
+          processQueue(err, null);
+          
+          // Если обновление токена не удалось, очищаем данные аутентификации
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          setUser(null);
+          
+          // Перенаправляем на страницу входа
+          router.push('/login');
+          
+          return Promise.reject(err);
+        } finally {
+          isRefreshing = false;
+        }
+      }
+    );
+    
+    // Очистка интерсептора при размонтировании
+    return () => {
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, [router]);
   
   // Проверяем, есть ли токен при загрузке
   useEffect(() => {
@@ -84,9 +184,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           setUser(response.data);
         } catch (error) {
           console.error('Error fetching user profile:', error);
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          axios.defaults.headers.common['Authorization'] = '';
+          // Не удаляем токены здесь, т.к. интерсептор попытается обновить токен
         }
       }
       setIsLoading(false);

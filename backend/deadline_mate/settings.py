@@ -155,7 +155,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
-    'TRAILING_SLASH': False,  # Allow URLs both with and without trailing slashes
+    'TRAILING_SLASH': False  # Отключаем слеш в конце URL
 }
 
 # JWT settings
@@ -170,7 +170,8 @@ CORS_ALLOW_ALL_ORIGINS = True  # For debugging only - don't use in production
 CORS_ALLOW_CREDENTIALS = True
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken', 'Authorization']
 
-APPEND_SLASH = True
+# Отключаем добавление слеша, т.к. это обрабатывается через rewrite на фронтенде
+APPEND_SLASH = False
 
 CORS_ALLOW_METHODS = [
     'DELETE',

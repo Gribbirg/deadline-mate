@@ -17,6 +17,13 @@
   "lightMode": "Светлая тема",
   "language": "Язык",
 
+  "footer": {
+    "copyright": "Deadline Mate. Все права защищены.",
+    "terms": "Условия использования",
+    "privacy": "Политика конфиденциальности",
+    "license": "Под лицензией MIT"
+  },
+
   "common": {
     "loading": "Загрузка...",
     "accessDenied": "Доступ запрещен",
@@ -24,16 +31,30 @@
     "save": "Сохранить",
     "actions": "Действия",
     "retry": "Повторить",
-    "notAuthenticated": "Для доступа к этой странице необходимо войти в систему"
+    "notAuthenticated": "Для доступа к этой странице необходимо войти в систему",
+    "yes": "Да",
+    "no": "Нет",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "create": "Создать",
+    "back": "Назад",
+    "backToList": "Вернуться к списку",
+    "search": "Поиск",
+    "filter": "Фильтр",
+    "error": "Ошибка",
+    "success": "Успешно",
+    "warning": "Предупреждение",
+    "empty": "Пусто"
   },
 
   "validation": {
-    "required": "Обязательное поле",
-    "email": "Некорректный формат email",
-    "passwordLength": "Пароль должен содержать не менее 8 символов",
-    "passwordStrength": "Пароль должен содержать заглавные и строчные буквы, а также цифры",
-    "passwordMatch": "Пароли не совпадают",
-    "tooLong": "Превышена максимальная длина ({{max}} символов)"
+    "required": "Это поле обязательно для заполнения",
+    "invalidEmail": "Неверный формат email",
+    "invalidDate": "Неверный формат даты",
+    "positiveNumber": "Значение должно быть положительным числом",
+    "percentageRange": "Значение должно быть в диапазоне от 0 до 100",
+    "formError": "Пожалуйста, исправьте ошибки в форме",
+    "commentOrFileRequired": "Необходимо добавить комментарий или файл"
   },
 
   "loginPage": {
@@ -149,6 +170,7 @@
     "saving": "Сохранение...",
     "onlyTeachersCanCreate": "Только преподаватели могут создавать группы",
     "membersCount": "Количество участников",
+    "saving": "Сохранение...",
     "backToGroupDetails": "Вернуться к информации о группе",
     "addStudentTitle": "Добавление студента в группу",
     "addStudentSuccess": "Студент успешно добавлен в группу",
@@ -208,10 +230,12 @@
   },
 
   "nav": {
-    "dashboard": "Панель управления",
+    "dashboard": "Дашборд",
     "assignments": "Задания",
     "deadlines": "Дедлайны",
     "groups": "Группы",
+    "profile": "Профиль",
+    "settings": "Настройки",
     "manageAssignments": "Управление заданиями"
   },
 
@@ -221,20 +245,24 @@
     "student": "Студент",
     "teacher": "Преподаватель",
     "loading": "Загрузка...",
-    "studentSection": "Панель студента",
-    "teacherSection": "Панель преподавателя",
+    "studentSection": "Ваш учебный прогресс",
+    "teacherSection": "Ваши учебные материалы",
     "upcomingDeadlines": "Ближайшие дедлайны",
-    "noDeadlines": "У вас нет ближайших дедлайнов",
+    "noDeadlines": "У вас нет предстоящих дедлайнов",
+    "yourSubmissions": "Ваши ответы",
+    "noSubmissions": "У вас пока нет отправленных ответов",
+    "yourGroups": "Ваши группы",
+    "noGroups": "У вас пока нет активных групп",
     "recentAssignments": "Последние задания",
-    "noAssignments": "У вас нет заданий",
-    "viewAllAssignments": "Посмотреть все задания",
+    "noAssignments": "У вас пока нет созданных заданий",
+    "viewAll": "Посмотреть все",
+    "viewAllAssignments": "Все задания",
     "viewAllGroups": "Все группы",
-    "managedGroups": "Ваши группы",
-    "noGroups": "У вас нет групп",
-    "createdAssignments": "Созданные задания",
-    "noCreatedAssignments": "Вы еще не создали заданий",
-    "createAssignment": "Создать задание",
-    "createGroup": "Создать группу"
+    "createGroup": "Создать группу",
+    "createFirstGroup": "Создать первую группу",
+    "createFirstAssignment": "Создать первое задание",
+    "manageGroups": "Управление группами",
+    "manageAssignments": "Управление заданиями"
   },
 
   "profile": {
@@ -263,5 +291,121 @@
     "fieldRequired": "Поле обязательно для заполнения"
   },
 
-  "error": "Ошибка"
+  "error": "Ошибка",
+
+  "assignments": {
+    "title": "Задания",
+    "create": "Создать задание",
+    "createNew": "Создание нового задания",
+    "createFirst": "Создать первое задание",
+    "edit": "Редактирование задания",
+    "editTitle": "Редактирование задания: {{title}}",
+    "delete": "Удалить задание",
+    "deleteConfirmTitle": "Подтверждение удаления",
+    "deleteConfirmText": "Вы действительно хотите удалить задание \"{{title}}\"? Это действие нельзя отменить.",
+    "createSuccess": "Задание успешно создано",
+    "updateSuccess": "Задание успешно обновлено",
+    "deleteSuccess": "Задание успешно удалено",
+    "empty": "Заданий пока нет",
+    "details": "Детали задания",
+    "attachments": "Вложения",
+    "submit": "Отправить ответ",
+    "submitTitle": "Отправка ответа на задание: {{title}}",
+    "submitSuccess": "Ответ успешно отправлен",
+    "createdBy": "Автор",
+    "assignToGroup": "Назначить группе",
+    "assign": "Назначить",
+    "assignSuccess": "Задание успешно назначено группе",
+    "assigningTitle": "Назначение задания: {{title}}",
+    "lateSubmissionAllowed": "Срок сдачи истёк, но поздняя сдача разрешена",
+    "lateSubmissionForbidden": "Срок сдачи истёк, поздняя сдача запрещена",
+    "latePenaltyWarning": "За позднюю сдачу будет применён штраф: {{percent}}% от максимального балла",
+    "deadlineExpiredInfo": "Вы не можете отправить ответ, так как срок сдачи истёк",
+    "submissions": "{{count}} ответов",
+    "viewSubmissions": "Просмотр ответов",
+    "submissionDetails": "Детали ответа",
+    "noSubmissions": "Нет ответов на это задание",
+    "submissionsList": "Список ответов",
+    "submissionDate": "Дата отправки",
+    "submissionInfo": "Информация об ответе",
+    "feedbackAndGrading": "Обратная связь и оценка",
+    "grade": "Оценить",
+    "gradeSubmission": "Оценить ответ",
+    "submissionAttachments": "Вложения",
+    "downloadAttachment": "Скачать файл",
+    "viewAttachment": "Просмотреть",
+    "submissionComment": "Комментарий",
+    "submissionStatus": "Статус",
+    "studentName": "Студент",
+    "submissionTime": "Время отправки",
+    "backToAssignment": "Вернуться к заданию",
+    "lateSubmission": "Поздняя сдача",
+    "onTimeSubmission": "Вовремя",
+    "viewSubmission": "Просмотр ответа",
+    "viewDetails": "Детали",
+    "gradedBy": "Оценил",
+
+    "status": {
+      "draft": "Черновик",
+      "published": "Опубликовано",
+      "archived": "Архив"
+    },
+
+    "deadline": {
+      "remaining": "Осталось: {{time}}",
+      "expired": "Срок истёк",
+      "unknown": "Срок не указан"
+    },
+
+    "submission": {
+      "submitted": "Отправлено",
+      "graded": "Оценено",
+      "returned": "На доработке",
+      "points": "{{points}} баллов"
+    },
+
+    "form": {
+      "title": "Название задания",
+      "titlePlaceholder": "Введите название задания",
+      "description": "Описание задания",
+      "descriptionPlaceholder": "Введите описание и требования к заданию",
+      "status": "Статус",
+      "deadline": "Срок сдачи",
+      "maxPoints": "Максимальное количество баллов",
+      "allowLate": "Разрешить сдачу после дедлайна",
+      "allowLateSubmissions": "Разрешить сдачу после дедлайна",
+      "latePenalty": "Штраф за позднюю сдачу (%)",
+      "latePenaltyPercentage": "Штраф за позднюю сдачу (%)",
+      "penaltyHelp": "Процент, который будет вычтен из максимальной оценки при поздней сдаче",
+      "selectGroup": "Выберите группу",
+      "selectGroupPlaceholder": "Выберите группу для назначения",
+      "customDeadline": "Индивидуальный дедлайн (опционально)",
+      "customDeadlineHelp": "Если не указано, будет использован основной дедлайн задания",
+      "originalDeadline": "Основной дедлайн: {{date}}",
+      "comment": "Комментарий к ответу",
+      "commentPlaceholder": "Добавьте комментарий к вашему ответу",
+      "files": "Файлы",
+      "selectFiles": "Выбрать файлы",
+      "selectedFiles": "Выбрано файлов: {{count}}"
+    },
+
+    "error": {
+      "load": "Ошибка при загрузке заданий",
+      "notFound": "Задание не найдено",
+      "create": "Ошибка при создании задания",
+      "update": "Ошибка при обновлении задания",
+      "delete": "Ошибка при удалении задания",
+      "assign": "Ошибка при назначении задания группе",
+      "submit": "Ошибка при отправке ответа",
+      "unauthorized": "У вас нет прав для выполнения этого действия",
+      "deadlineExpired": "Срок сдачи задания истёк",
+      "generic": "Произошла ошибка",
+      "notGradedYet": "Ещё не оценено",
+      "returnedForRevision": "Возвращено на доработку"
+    }
+  },
+
+  "notFound": "Страница не найдена",
+  "notFoundMessage": "Запрашиваемая страница не существует или была перемещена",
+  "backToHome": "Вернуться на главную"
 } 

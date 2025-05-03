@@ -21,8 +21,11 @@ import {
 import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'next-i18next';
 import NextLink from 'next/link';
+import Image from 'next/image';
 import ThemeToggle from './ThemeToggle';
 import LanguageToggle from './LanguageToggle';
+import Logo from './Logo';
+import Footer from './Footer';
 import { useAuth } from '../contexts/AuthContext';
 import PageTransition from './PageTransition';
 
@@ -37,7 +40,7 @@ const Layout = ({ children }: LayoutProps) => {
   const headerBgColor = useColorModeValue('white', 'gray.800');
   
   return (
-    <Box minH="100vh" bg={bgColor}>
+    <Box minH="100vh" bg={bgColor} display="flex" flexDirection="column">
       <Flex
         as="header"
         position="fixed"
@@ -51,7 +54,7 @@ const Layout = ({ children }: LayoutProps) => {
       >
         <NextLink href={isAuthenticated ? '/dashboard' : '/'} legacyBehavior>
           <ChakraLink _hover={{ textDecoration: 'none' }}>
-            <Heading size="md">{t('appName')}</Heading>
+            <Logo textSize="md" hideTextOnMobile={true} />
           </ChakraLink>
         </NextLink>
         
@@ -68,9 +71,6 @@ const Layout = ({ children }: LayoutProps) => {
                 <NextLink href="/assignments" legacyBehavior>
                   <ChakraLink>{t('nav.assignments')}</ChakraLink>
                 </NextLink>
-                <NextLink href="/deadlines" legacyBehavior>
-                  <ChakraLink>{t('nav.deadlines')}</ChakraLink>
-                </NextLink>
                 <NextLink href="/groups" legacyBehavior>
                   <ChakraLink>{t('nav.groups')}</ChakraLink>
                 </NextLink>
@@ -83,7 +83,7 @@ const Layout = ({ children }: LayoutProps) => {
                 <NextLink href="/groups" legacyBehavior>
                   <ChakraLink>{t('nav.groups')}</ChakraLink>
                 </NextLink>
-                <NextLink href="/assignments/manage" legacyBehavior>
+                <NextLink href="/assignments" legacyBehavior>
                   <ChakraLink>{t('nav.manageAssignments')}</ChakraLink>
                 </NextLink>
               </>
@@ -113,9 +113,6 @@ const Layout = ({ children }: LayoutProps) => {
                     <NextLink href="/assignments" legacyBehavior>
                       <MenuItem as="a">{t('nav.assignments')}</MenuItem>
                     </NextLink>
-                    <NextLink href="/deadlines" legacyBehavior>
-                      <MenuItem as="a">{t('nav.deadlines')}</MenuItem>
-                    </NextLink>
                     <NextLink href="/groups" legacyBehavior>
                       <MenuItem as="a">{t('nav.groups')}</MenuItem>
                     </NextLink>
@@ -127,7 +124,7 @@ const Layout = ({ children }: LayoutProps) => {
                     <NextLink href="/groups" legacyBehavior>
                       <MenuItem as="a">{t('nav.groups')}</MenuItem>
                     </NextLink>
-                    <NextLink href="/assignments/manage" legacyBehavior>
+                    <NextLink href="/assignments" legacyBehavior>
                       <MenuItem as="a">{t('nav.manageAssignments')}</MenuItem>
                     </NextLink>
                   </>
@@ -183,13 +180,15 @@ const Layout = ({ children }: LayoutProps) => {
         )}
       </Flex>
       
-      <Container maxW="container.xl" pt="80px" pb="20px">
+      <Container maxW="container.xl" pt="80px" pb="20px" flex="1">
         <Box as="main">
           <PageTransition>
             {children}
           </PageTransition>
         </Box>
       </Container>
+      
+      <Footer />
     </Box>
   );
 };

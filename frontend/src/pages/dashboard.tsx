@@ -24,7 +24,9 @@ import { useAuth } from '../contexts/AuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { useRouter } from 'next/router';
 import { GroupProvider, useGroups, Group } from '../contexts/GroupContext';
-import { FaUsers, FaUserGraduate } from 'react-icons/fa';
+import { useAssignments } from '../contexts/AssignmentContext';
+import { FaUsers, FaUserGraduate, FaClipboardList, FaClock, FaCheckCircle } from 'react-icons/fa';
+import { Assignment } from '../contexts/types';
 import NextLink from 'next/link';
 
 // Компонент карточки группы
@@ -119,18 +121,120 @@ const GroupCard = ({ group }: { group: Group }) => {
   );
 };
 
+// Компонент карточки задания для дашборда
+const AssignmentCard = ({ assignment }: { assignment: Assignment }) => {
+  const { t } = useTranslation('common');
+  const bgColor = useColorModeValue('white', 'gray.700');
+  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  
+  // Определяем цвет для статуса задания
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'draft': return 'gray';
+      case 'published': return 'green';
+      case 'archived': return 'purple';
+      default: return 'gray';
+    }
+  };
+  
+  // Определяем цвет для времени до дедлайна
+  const getDeadlineColor = (isExpired: boolean, timeRemaining: string | null) => {
+    if (isExpired) return 'red.500';
+    if (!timeRemaining) return 'gray.500';
+    
+    if (timeRemaining.includes('д')) return 'green.500';
+    if (timeRemaining.includes('ч')) {
+      const hours = parseInt(timeRemaining);
+      return hours > 24 ? 'green.500' : hours > 6 ? 'yellow.500' : 'orange.500';
+    }
+    return 'red.500';
+  };
+  
+  return (
+    <Box
+      borderWidth="1px"
+      borderColor={borderColor}
+      borderRadius="md"
+      bg={bgColor}
+      p={3}
+      shadow="sm"
+      transition="all 0.2s"
+      _hover={{ shadow: 'md', borderColor: 'blue.200' }}
+    >
+      <NextLink href={`/assignments/${assignment.id}`} passHref legacyBehavior>
+        <Link _hover={{ textDecoration: 'none' }}>
+          <Flex justify="space-between" align="center" mb={2}>
+            <Heading fontSize="md" noOfLines={1}>{assignment.title}</Heading>
+            <Badge colorScheme={getStatusColor(assignment.status)} ml={2}>
+              {t(`assignments.status.${assignment.status}`)}
+            </Badge>
+          </Flex>
+          
+          <Text fontSize="sm" noOfLines={2} mb={3} color="gray.500">
+            {assignment.description}
+          </Text>
+          
+          <Flex justify="space-between" align="center">
+            <Flex align="center">
+              <Icon as={FaClock} mr={1} />
+              <Text fontSize="sm" color={getDeadlineColor(assignment.is_deadline_expired, assignment.time_remaining)}>
+                {assignment.is_deadline_expired 
+                  ? t('assignments.deadline.expired') 
+                  : assignment.time_remaining 
+                    ? t('assignments.deadline.remaining', { time: assignment.time_remaining })
+                    : t('assignments.deadline.unknown')}
+              </Text>
+            </Flex>
+            <Text fontSize="xs" color="gray.500">
+              {new Date(assignment.deadline).toLocaleDateString()}
+            </Text>
+          </Flex>
+        </Link>
+      </NextLink>
+    </Box>
+  );
+};
+
 const DashboardContent = () => {
   const { t } = useTranslation('common');
   const { user, isStudent, isTeacher } = useAuth();
   const bgColor = useColorModeValue('white', 'gray.800');
   const router = useRouter();
-  const { groups, fetchGroups, loading, error } = useGroups();
+  const { groups, fetchGroups, loading: groupsLoading } = useGroups();
+  const { 
+    assignments, 
+    studentSubmissions, 
+    fetchAssignments, 
+    fetchStudentSubmissions,
+    loading: assignmentsLoading
+  } = useAssignments();
   
+  // Загрузка данных при монтировании компонента
   useEffect(() => {
     if (isTeacher()) {
       fetchGroups();
+      fetchAssignments();
+    } else if (isStudent()) {
+      fetchAssignments();
+      fetchStudentSubmissions();
     }
-  }, [isTeacher, fetchGroups]);
+  }, [isTeacher, isStudent, fetchGroups, fetchAssignments, fetchStudentSubmissions]);
+  
+  // Фильтруем задания с ближайшими дедлайнами
+  const upcomingAssignments = assignments
+    .filter(a => !a.is_deadline_expired && a.status === 'published')
+    .sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime())
+    .slice(0, 3);
+  
+  // Фильтруем недавно созданные задания (для преподавателя)
+  const recentAssignments = assignments
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 3);
+  
+  // Получаем отправленные/оцененные задания для студента
+  const submittedAssignments = studentSubmissions
+    .sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime())
+    .slice(0, 3);
   
   return (
     <Box p={4}>
@@ -155,27 +259,91 @@ const DashboardContent = () => {
       
       {/* Содержимое для студента */}
       {isStudent() && (
-        <Stack spacing={4}>
+        <Stack spacing={6}>
           <Heading as="h2" size="lg">
             {t('dashboard.studentSection')}
           </Heading>
           
           <Box bg={bgColor} p={4} borderRadius="md" shadow="md">
-            <Heading as="h3" size="md" mb={2}>
-              {t('dashboard.upcomingDeadlines')}
-            </Heading>
-            <Text color="gray.500">{t('dashboard.noDeadlines')}</Text>
+            <Flex justify="space-between" align="center" mb={4}>
+              <Heading as="h3" size="md">
+                {t('dashboard.upcomingDeadlines')}
+              </Heading>
+              <NextLink href="/assignments" passHref legacyBehavior>
+                <Link color="blue.500" fontWeight="medium">
+                  {t('dashboard.viewAll')}
+                </Link>
+              </NextLink>
+            </Flex>
+            
+            {upcomingAssignments.length > 0 ? (
+              <Stack spacing={4}>
+                {upcomingAssignments.map(assignment => (
+                  <AssignmentCard key={assignment.id} assignment={assignment} />
+                ))}
+              </Stack>
+            ) : (
+              <Text color="gray.500">{t('dashboard.noDeadlines')}</Text>
+            )}
           </Box>
           
           <Box bg={bgColor} p={4} borderRadius="md" shadow="md">
-            <Heading as="h3" size="md" mb={2}>
-              {t('dashboard.recentAssignments')}
-            </Heading>
-            <Text color="gray.500">{t('dashboard.noAssignments')}</Text>
+            <Flex justify="space-between" align="center" mb={4}>
+              <Heading as="h3" size="md">
+                {t('dashboard.yourSubmissions')}
+              </Heading>
+              <NextLink href="/assignments" passHref legacyBehavior>
+                <Link color="blue.500" fontWeight="medium">
+                  {t('dashboard.viewAll')}
+                </Link>
+              </NextLink>
+            </Flex>
+            
+            {submittedAssignments.length > 0 ? (
+              <Stack spacing={4}>
+                {submittedAssignments.map(submission => (
+                  <Box 
+                    key={submission.id}
+                    p={3}
+                    borderRadius="md"
+                    borderWidth="1px"
+                    borderColor={useColorModeValue('gray.200', 'gray.600')}
+                  >
+                    <Flex justify="space-between" align="center" mb={2}>
+                      <Heading fontSize="md" noOfLines={1}>
+                        <NextLink href={`/assignments/${submission.assignment.id}`} passHref legacyBehavior>
+                          <Link>{submission.assignment.title}</Link>
+                        </NextLink>
+                      </Heading>
+                      <Badge colorScheme={submission.status === 'graded' ? 'green' : 'yellow'}>
+                        {t(`assignments.submission.${submission.status}`)}
+                      </Badge>
+                    </Flex>
+                    <Flex justify="space-between" fontSize="sm" color="gray.500">
+                      <Text>{new Date(submission.submitted_at).toLocaleString()}</Text>
+                      {submission.points !== null && (
+                        <Text fontWeight="bold">
+                          {t('assignments.submission.points', { points: submission.points })}
+                        </Text>
+                      )}
+                    </Flex>
+                    <Flex justify="flex-end" mt={2}>
+                      <NextLink href={`/submissions/${submission.id}`} passHref legacyBehavior>
+                        <Button as="a" size="sm" variant="outline" colorScheme="blue">
+                          {t('assignments.viewSubmission')}
+                        </Button>
+                      </NextLink>
+                    </Flex>
+                  </Box>
+                ))}
+              </Stack>
+            ) : (
+              <Text color="gray.500">{t('dashboard.noSubmissions')}</Text>
+            )}
           </Box>
           
           <Button 
-            colorScheme="brand" 
+            colorScheme="blue" 
             size="md"
             onClick={() => router.push('/assignments')}
           >
@@ -198,76 +366,104 @@ const DashboardContent = () => {
             overflow="hidden"
           >
             <Flex 
-              justify="space-between" 
-              align="center" 
-              bg={useColorModeValue('gray.50', 'gray.800')} 
-              p={4} 
-              borderBottomWidth="1px" 
-              borderColor={useColorModeValue('gray.200', 'gray.700')}
+              bg={useColorModeValue('gray.50', 'gray.900')} 
+              p={4}
+              justify="space-between"
+              align="center"
             >
-              <Heading as="h3" size="md">
-                {t('dashboard.managedGroups')}
-              </Heading>
-              <HStack>
-                <Button 
-                  size="sm" 
-                  leftIcon={<Icon as={FaUsers} />}
-                  colorScheme="brand"
-                  variant="outline"
-                  onClick={() => router.push('/groups')}
-                >
-                  {t('dashboard.viewAllGroups')}
-                </Button>
-                <Button
-                  size="sm"
-                  colorScheme="brand"
-                  leftIcon={<Icon as={FaUsers} />}
-                  onClick={() => router.push('/groups/create')}
-                >
-                  {t('group.create')}
-                </Button>
-              </HStack>
+              <Heading size="md">{t('dashboard.yourGroups')}</Heading>
+              <Button
+                colorScheme="blue"
+                variant="outline"
+                size="sm"
+                onClick={() => router.push('/groups/create')}
+              >
+                {t('dashboard.createGroup')}
+              </Button>
             </Flex>
             
             <Box p={4}>
-              {loading ? (
-                <Text p={4}>{t('common.loading')}</Text>
-              ) : error ? (
-                <Text color="red.500" p={4}>{error}</Text>
-              ) : groups.length === 0 ? (
-                <Box p={4} textAlign="center">
-                  <Text color="gray.500" mb={4}>{t('dashboard.noGroups')}</Text>
-                  <Button
-                    colorScheme="brand"
-                    leftIcon={<Icon as={FaUsers} />}
-                    onClick={() => router.push('/groups/create')}
-                  >
-                    {t('group.create')}
-                  </Button>
-                </Box>
-              ) : (
+              {groups.length > 0 ? (
                 <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
                   {groups.slice(0, 6).map(group => (
                     <GroupCard key={group.id} group={group} />
                   ))}
                 </SimpleGrid>
+              ) : (
+                <Box textAlign="center" py={6}>
+                  <Text color="gray.500" mb={4}>{t('dashboard.noGroups')}</Text>
+                  <Button
+                    colorScheme="blue"
+                    onClick={() => router.push('/groups/create')}
+                  >
+                    {t('dashboard.createFirstGroup')}
+                  </Button>
+                </Box>
+              )}
+              
+              {groups.length > 6 && (
+                <Box textAlign="center" mt={4}>
+                  <Button
+                    variant="ghost"
+                    colorScheme="blue"
+                    onClick={() => router.push('/groups')}
+                  >
+                    {t('dashboard.viewAllGroups')}
+                  </Button>
+                </Box>
               )}
             </Box>
           </Box>
           
-          <Box bg={bgColor} p={5} borderRadius="lg" shadow="sm" borderWidth="1px" borderColor={useColorModeValue('gray.200', 'gray.700')}>
-            <Heading as="h3" size="md" mb={4}>
-              {t('dashboard.createdAssignments')}
-            </Heading>
-            <Text color="gray.500" mb={4}>{t('dashboard.noCreatedAssignments')}</Text>
-            <Button 
-              colorScheme="brand" 
-              size="md" 
-              onClick={() => router.push('/assignments/create')}
-            >
-              {t('dashboard.createAssignment')}
-            </Button>
+          <Box bg={bgColor} p={4} borderRadius="md" shadow="md">
+            <Flex justify="space-between" align="center" mb={4}>
+              <Heading as="h3" size="md">
+                {t('dashboard.recentAssignments')}
+              </Heading>
+              <NextLink href="/assignments" passHref legacyBehavior>
+                <Link color="blue.500" fontWeight="medium">
+                  {t('dashboard.viewAll')}
+                </Link>
+              </NextLink>
+            </Flex>
+            
+            {recentAssignments.length > 0 ? (
+              <Stack spacing={4}>
+                {recentAssignments.map(assignment => (
+                  <AssignmentCard key={assignment.id} assignment={assignment} />
+                ))}
+              </Stack>
+            ) : (
+              <Box textAlign="center" py={6}>
+                <Text color="gray.500" mb={4}>{t('dashboard.noAssignments')}</Text>
+                <Button
+                  colorScheme="green"
+                  onClick={() => router.push('/assignments/create')}
+                >
+                  {t('dashboard.createFirstAssignment')}
+                </Button>
+              </Box>
+            )}
           </Box>
+          
+          <Flex gap={4}>
+            <Button 
+              colorScheme="blue" 
+              size="md"
+              onClick={() => router.push('/groups')}
+              flex={1}
+            >
+              {t('dashboard.manageGroups')}
+            </Button>
+            <Button 
+              colorScheme="green" 
+              size="md"
+              onClick={() => router.push('/assignments')}
+              flex={1}
+            >
+              {t('dashboard.manageAssignments')}
+            </Button>
+          </Flex>
         </Stack>
       )}
     </Box>

@@ -4,14 +4,20 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import { appWithTranslation } from 'next-i18next';
 import theme from '../styles/theme';
 import { AuthProvider } from '../contexts/AuthContext';
+import { GroupProvider } from '../contexts/GroupContext';
+import { AssignmentProvider } from '../contexts/AssignmentContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
-      <ChakraProvider theme={theme}>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <GroupProvider>
+        <AssignmentProvider>
+          <ChakraProvider theme={theme}>
+            <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </AssignmentProvider>
+      </GroupProvider>
     </AuthProvider>
   );
 }

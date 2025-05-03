@@ -17,23 +17,44 @@
   "lightMode": "Light Mode",
   "language": "Language",
 
+  "footer": {
+    "copyright": "Deadline Mate. All rights reserved.",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "license": "Licensed under the MIT License"
+  },
+
   "common": {
     "loading": "Loading...",
-    "accessDenied": "Access denied",
+    "accessDenied": "Access Denied",
     "cancel": "Cancel",
     "save": "Save",
     "actions": "Actions",
     "retry": "Retry",
-    "notAuthenticated": "You need to be logged in to access this page"
+    "notAuthenticated": "You need to log in to access this page",
+    "yes": "Yes",
+    "no": "No",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "back": "Back",
+    "backToList": "Back to List",
+    "search": "Search",
+    "filter": "Filter",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "empty": "Empty"
   },
 
   "validation": {
-    "required": "Required field",
-    "email": "Invalid email format",
-    "passwordLength": "Password must be at least 8 characters long",
-    "passwordStrength": "Password must contain uppercase and lowercase letters, and numbers",
-    "passwordMatch": "Passwords do not match",
-    "tooLong": "Exceeds maximum length ({{max}} characters)"
+    "required": "This field is required",
+    "invalidEmail": "Invalid email format",
+    "invalidDate": "Invalid date format",
+    "positiveNumber": "Value must be a positive number",
+    "percentageRange": "Value must be between 0 and 100",
+    "formError": "Please fix the errors in the form",
+    "commentOrFileRequired": "You must add a comment or upload a file"
   },
 
   "loginPage": {
@@ -149,6 +170,7 @@
     "saving": "Saving...",
     "onlyTeachersCanCreate": "Only teachers can create groups",
     "membersCount": "Member count",
+    "saving": "Saving...",
     "backToGroupDetails": "Back to Group Details",
     "addStudentTitle": "Add Student to Group",
     "addStudentSuccess": "Student added to group successfully",
@@ -212,7 +234,9 @@
     "assignments": "Assignments",
     "deadlines": "Deadlines",
     "groups": "Groups",
-    "manageAssignments": "Manage Assignments"
+    "manageAssignments": "Manage Assignments",
+    "profile": "Profile",
+    "settings": "Settings"
   },
 
   "dashboard": {
@@ -221,20 +245,24 @@
     "student": "Student",
     "teacher": "Teacher",
     "loading": "Loading...",
-    "studentSection": "Student Dashboard",
-    "teacherSection": "Teacher Dashboard",
+    "studentSection": "Your Learning Progress",
+    "teacherSection": "Your Teaching Materials",
     "upcomingDeadlines": "Upcoming Deadlines",
     "noDeadlines": "You have no upcoming deadlines",
+    "yourSubmissions": "Your Submissions",
+    "noSubmissions": "You haven't submitted any assignments yet",
+    "yourGroups": "Your Groups",
+    "noGroups": "You don't have any active groups yet",
     "recentAssignments": "Recent Assignments",
-    "noAssignments": "You have no assignments",
-    "viewAllAssignments": "View All Assignments",
+    "noAssignments": "You haven't created any assignments yet",
+    "viewAll": "View All",
+    "viewAllAssignments": "All Assignments",
     "viewAllGroups": "All Groups",
-    "managedGroups": "Your Groups",
-    "noGroups": "You have no groups",
-    "createdAssignments": "Created Assignments",
-    "noCreatedAssignments": "You haven't created any assignments yet",
-    "createAssignment": "Create Assignment",
-    "createGroup": "Create Group"
+    "createGroup": "Create Group",
+    "createFirstGroup": "Create First Group",
+    "createFirstAssignment": "Create First Assignment",
+    "manageGroups": "Manage Groups",
+    "manageAssignments": "Manage Assignments"
   },
 
   "profile": {
@@ -263,5 +291,121 @@
     "fieldRequired": "This field is required"
   },
 
-  "error": "Error"
+  "error": "Error",
+
+  "assignments": {
+    "title": "Assignments",
+    "create": "Create Assignment",
+    "createNew": "Create New Assignment",
+    "createFirst": "Create First Assignment",
+    "edit": "Edit Assignment",
+    "editTitle": "Edit Assignment: {{title}}",
+    "delete": "Delete Assignment",
+    "deleteConfirmTitle": "Delete Confirmation",
+    "deleteConfirmText": "Are you sure you want to delete assignment \"{{title}}\"? This action cannot be undone.",
+    "createSuccess": "Assignment created successfully",
+    "updateSuccess": "Assignment updated successfully",
+    "deleteSuccess": "Assignment deleted successfully",
+    "empty": "No assignments yet",
+    "details": "Assignment Details",
+    "attachments": "Attachments",
+    "submit": "Submit Assignment",
+    "submitTitle": "Submit Assignment: {{title}}",
+    "submitSuccess": "Assignment submitted successfully",
+    "createdBy": "Created by",
+    "assignToGroup": "Assign to Group",
+    "assign": "Assign",
+    "assignSuccess": "Assignment successfully assigned to group",
+    "assigningTitle": "Assigning: {{title}}",
+    "lateSubmissionAllowed": "Deadline has passed, but late submission is allowed",
+    "lateSubmissionForbidden": "Deadline has passed, late submission is not allowed",
+    "latePenaltyWarning": "Late submission will have a penalty of {{percent}}% of the maximum score",
+    "deadlineExpiredInfo": "You cannot submit as the deadline has expired",
+    "submissions": "{{count}} submissions",
+    "viewSubmissions": "View Submissions",
+    "submissionDetails": "Submission Details",
+    "noSubmissions": "No submissions for this assignment",
+    "submissionsList": "Submissions List",
+    "submissionDate": "Submission Date",
+    "submissionInfo": "Submission Information",
+    "feedbackAndGrading": "Feedback and Grading",
+    "grade": "Grade",
+    "gradeSubmission": "Grade Submission",
+    "submissionAttachments": "Attachments",
+    "downloadAttachment": "Download File",
+    "viewAttachment": "View",
+    "submissionComment": "Comment",
+    "submissionStatus": "Status",
+    "studentName": "Student",
+    "submissionTime": "Submission Time",
+    "backToAssignment": "Back to Assignment",
+    "lateSubmission": "Late Submission",
+    "onTimeSubmission": "On Time",
+    "viewSubmission": "View Submission",
+    "viewDetails": "View Details",
+    "gradedBy": "Graded by",
+
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "archived": "Archived"
+    },
+
+    "deadline": {
+      "remaining": "Time left: {{time}}",
+      "expired": "Expired",
+      "unknown": "No deadline"
+    },
+
+    "submission": {
+      "submitted": "Submitted",
+      "graded": "Graded",
+      "returned": "Returned for revision",
+      "points": "{{points}} points"
+    },
+
+    "form": {
+      "title": "Assignment Title",
+      "titlePlaceholder": "Enter assignment title",
+      "description": "Assignment Description",
+      "descriptionPlaceholder": "Enter description and requirements",
+      "status": "Status",
+      "deadline": "Deadline",
+      "maxPoints": "Maximum Points",
+      "allowLate": "Allow Late Submissions",
+      "allowLateSubmissions": "Allow Late Submissions",
+      "latePenalty": "Late Penalty (%)",
+      "latePenaltyPercentage": "Late Penalty (%)",
+      "penaltyHelp": "Percentage that will be deducted from the maximum score for late submissions",
+      "selectGroup": "Select Group",
+      "selectGroupPlaceholder": "Select a group to assign to",
+      "customDeadline": "Custom deadline (optional)",
+      "customDeadlineHelp": "If not set, the main assignment deadline will be used",
+      "originalDeadline": "Main deadline: {date}",
+      "comment": "Submission Comment",
+      "commentPlaceholder": "Add a comment to your submission",
+      "files": "Files",
+      "selectFiles": "Select Files",
+      "selectedFiles": "Selected files: {count}"
+    },
+
+    "error": {
+      "load": "Error loading assignments",
+      "notFound": "Assignment not found",
+      "create": "Error creating assignment",
+      "update": "Error updating assignment",
+      "delete": "Error deleting assignment",
+      "assign": "Error assigning to group",
+      "submit": "Error submitting assignment",
+      "unauthorized": "You don't have permission to perform this action",
+      "deadlineExpired": "Assignment deadline has expired",
+      "generic": "An error occurred",
+      "notGradedYet": "Not graded yet",
+      "returnedForRevision": "Returned for revision"
+    }
+  },
+
+  "notFound": "Page Not Found",
+  "notFoundMessage": "The page you're looking for doesn't exist or has been moved",
+  "backToHome": "Back to Home"
 } 
