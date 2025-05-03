@@ -14,6 +14,7 @@ export interface User {
     id?: number;
     major?: string;
     year_of_study?: number;
+    bio?: string;
     avatar?: string;
   };
   teacher_profile?: {
@@ -49,11 +50,13 @@ export interface RegisterData {
   student_profile?: {
     major?: string;
     year_of_study?: number;
+    bio?: string;
   };
   teacher_profile?: {
     position?: string;
     department?: string;
     academic_degree?: string;
+    bio?: string;
   };
 }
 

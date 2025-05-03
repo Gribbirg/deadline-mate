@@ -17,6 +17,7 @@ export interface StudentProfile {
   user: User;
   major?: string;
   year_of_study?: number;
+  bio?: string;
   avatar?: string;
 }
 
