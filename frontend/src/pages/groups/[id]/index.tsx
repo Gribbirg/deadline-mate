@@ -109,7 +109,7 @@ const GroupDetailPage = () => {
     
     // Проверяем, есть ли пользователь в списке преподавателей группы
     return currentGroup.teachers.some(
-      teacher => teacher.teacher === user.teacher_profile.id && teacher.is_active
+      teacher => user?.teacher_profile && teacher.teacher === user.teacher_profile.id && teacher.is_active
     );
   }, [currentGroup, user]);
 
