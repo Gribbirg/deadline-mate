@@ -1,9 +1,10 @@
-from rest_framework import generics, permissions, status, viewsets
+from rest_framework import generics, permissions, status, viewsets, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from .models import StudentProfile, TeacherProfile
 
 from .serializers import (
     UserRegistrationSerializer, 
@@ -105,4 +106,26 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
             return self.get_paginated_response(serializer.data)
             
         serializer = self.get_serializer(teachers, many=True)
+        return Response(serializer.data)
+
+
+class StudentViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    ViewSet для работы со студентами
+    
+    list: Список всех студентов с возможностью поиска
+    retrieve: Получение информации о конкретном студенте
+    """
+    queryset = StudentProfile.objects.select_related('user').all()
+    serializer_class = StudentProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['user__username', 'user__first_name', 'user__last_name', 'user__email']
+    
+    def list(self, request, *args, **kwargs):
+        """
+        Получение списка студентов с возможностью поиска
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data) 

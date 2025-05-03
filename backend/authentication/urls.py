@@ -6,12 +6,14 @@ from .views import (
     CustomTokenObtainPairView,
     UserRegistrationView,
     UserProfileView,
-    UserViewSet
+    UserViewSet,
+    StudentViewSet,
 )
 
 # Создаем маршрутизатор для ViewSet
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register('students', StudentViewSet, basename='students')
 
 urlpatterns = [
     # JWT аутентификация

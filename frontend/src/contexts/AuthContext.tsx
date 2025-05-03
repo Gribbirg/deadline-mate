@@ -10,6 +10,20 @@ export interface User {
   role: 'student' | 'teacher';
   first_name: string;
   last_name: string;
+  student_profile?: {
+    id?: number;
+    major?: string;
+    year_of_study?: number;
+    avatar?: string;
+  };
+  teacher_profile?: {
+    id?: number;
+    position?: string;
+    department?: string;
+    academic_degree?: string;
+    bio?: string;
+    avatar?: string;
+  };
 }
 
 export interface AuthContextType {
@@ -91,7 +105,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         password
       });
       
-      const { access, refresh, user_id, username: userName, email, role, first_name, last_name } = response.data;
+      const { access, refresh, user_id, username: userName, email, role, first_name, last_name, teacher_profile, student_profile } = response.data;
       
       // Сохраняем токены
       localStorage.setItem('access_token', access);
@@ -107,7 +121,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         email,
         role,
         first_name,
-        last_name
+        last_name,
+        teacher_profile,
+        student_profile
       });
       
       // Перенаправление на дашборд

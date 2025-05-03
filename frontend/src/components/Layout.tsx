@@ -24,6 +24,7 @@ import NextLink from 'next/link';
 import ThemeToggle from './ThemeToggle';
 import LanguageToggle from './LanguageToggle';
 import { useAuth } from '../contexts/AuthContext';
+import PageTransition from './PageTransition';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -70,6 +71,9 @@ const Layout = ({ children }: LayoutProps) => {
                 <NextLink href="/deadlines" legacyBehavior>
                   <ChakraLink>{t('nav.deadlines')}</ChakraLink>
                 </NextLink>
+                <NextLink href="/groups" legacyBehavior>
+                  <ChakraLink>{t('nav.groups')}</ChakraLink>
+                </NextLink>
               </>
             )}
             
@@ -111,6 +115,9 @@ const Layout = ({ children }: LayoutProps) => {
                     </NextLink>
                     <NextLink href="/deadlines" legacyBehavior>
                       <MenuItem as="a">{t('nav.deadlines')}</MenuItem>
+                    </NextLink>
+                    <NextLink href="/groups" legacyBehavior>
+                      <MenuItem as="a">{t('nav.groups')}</MenuItem>
                     </NextLink>
                   </>
                 )}
@@ -177,7 +184,11 @@ const Layout = ({ children }: LayoutProps) => {
       </Flex>
       
       <Container maxW="container.xl" pt="80px" pb="20px">
-        <Box as="main">{children}</Box>
+        <Box as="main">
+          <PageTransition>
+            {children}
+          </PageTransition>
+        </Box>
       </Container>
     </Box>
   );

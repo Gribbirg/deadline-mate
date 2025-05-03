@@ -9,10 +9,20 @@ from .models import StudentProfile, TeacherProfile
 User = get_user_model()
 
 
+class BasicUserSerializer(serializers.ModelSerializer):
+    """Базовый сериализатор для пользователя с основной информацией."""
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email']
+
+
 class StudentProfileSerializer(serializers.ModelSerializer):
+    """Сериализатор для профиля студента."""
+    user = BasicUserSerializer(read_only=True)
+    
     class Meta:
         model = StudentProfile
-        fields = ['student_id', 'major', 'year_of_study', 'bio', 'avatar']
+        fields = ['id', 'user', 'student_id', 'major', 'year_of_study', 'bio', 'avatar']
 
 
 class TeacherProfileSerializer(serializers.ModelSerializer):
